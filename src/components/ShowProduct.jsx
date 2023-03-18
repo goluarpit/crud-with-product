@@ -1,10 +1,10 @@
 import React,{useState,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-export default function ShowUser (){
+export default function ShowProduct(){
     const nav=useNavigate()
     const [data,setData]=useState([])
     useEffect(()=>{
-        fetch("http://localhost:5000/users").then((req)=>{
+        fetch("http://localhost:5000/products").then((req)=>{
             req.json().then((resp)=>{
                 setData(resp)
             })
@@ -15,7 +15,7 @@ export default function ShowUser (){
         
        window.location.reload(true)
       if( window.confirm('are you sure you want to delete')){
-        fetch(`http://localhost:5000/users/${x}`,{
+        fetch(`http://localhost:5000/products/${x}`,{
             method:"DELETE"}
         ).then((req)=>{
         }).then((resp)=>{
@@ -26,18 +26,20 @@ export default function ShowUser (){
     }
     function edit(golu){
          window.localStorage.setItem("st",JSON.stringify(golu))
-         nav('/createuser')
+         nav('/createproduct')
     }
+
     return(
         <React.Fragment>
             <table border={1} className="table table-hover">
                 <tr>
                     <th>id</th>
-                    <th>Name</th>
-                   
-                    <th>Email</th>
-                    <th>Number</th>
-                    <th>Password</th>
+                    <th>Product name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Discription</th>
+                    <th>Size</th>
+                    <th>image</th>
                     <th>delete</th>
                     <th>edit</th>
 
@@ -47,14 +49,19 @@ export default function ShowUser (){
                     data.map((item)=>
                     <tr>
                         <td>{item.id}</td>
-                        <td>{item.name}</td>
-                        <td>{item.email}</td>
-                        <td>{item.mobile}</td>
-                        <td>{item.password}</td>
-                        <td><button onClick={()=>{del(item.id)}}>delete</button> </td>
+                         <td>{item.productname}</td>
+                   <td>{item.price}</td>
+                   <td>{item.quantity}</td>
+                   <td>{item.discription}</td>
+                   <td>{item.size}</td>
+                   <td><img src={item.url} alt="......."/></td>
+                        
+                        <td><button onClick={()=>{del(item.id)}} >delete</button> </td>
                         <td><button onClick={()=>{edit(item.id)}} >edit</button> </td>
                     </tr>
                     )
+                
+                    
            }
             </table>
         </React.Fragment>
